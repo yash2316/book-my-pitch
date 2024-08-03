@@ -49,7 +49,7 @@ class Payment {
 
       displayPaymentSheet(context);
     } catch (err) {
-      throw Exception(err);
+      print(err);
     }
   }
 

@@ -23,8 +23,6 @@ class _Login extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   UserDataModelLogin userDataModel = UserDataModelLogin();
   double borderRadius1 = 5.0;
-  TextStyle textStyle1 =
-      TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
 
   Future<void> handleLogin(BuildContext context) async {
     try {
@@ -59,6 +57,8 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle textStyle1 =
+        const TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
     return Scaffold(
       body: Center(
         child: Padding(
@@ -71,14 +71,14 @@ class _Login extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Welcome Back!",
+                      Text("Welcome Back!",
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 40,
                               fontWeight: FontWeight.bold)),
-                      const Text("You've been missed",
+                      Text("You've been missed",
                           style: TextStyle(
-                              color: Colors.black38,
+                              color: Theme.of(context).colorScheme.secondary,
                               fontSize: 25,
                               fontWeight: FontWeight.bold)),
                       const SizedBox(
@@ -92,15 +92,21 @@ class _Login extends State<Login> {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             errorText: _errorMsg),
                         initialCountryCode: 'IN',
                         onChanged: (phone) {
@@ -153,7 +159,9 @@ class _Login extends State<Login> {
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.circular(borderRadius1),
-                              borderSide: const BorderSide()),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                              )),
                         ),
                       ),
                       SizedBox(

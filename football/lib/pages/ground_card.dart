@@ -8,7 +8,7 @@ class GroundInfoModel {
   final String? latitude;
   final String? longitude;
   final String? ratings;
-  final int ownerId;
+  final String ownerId;
   final int groundId;
   final int price;
 
@@ -47,11 +47,13 @@ class GroundCard extends StatelessWidget {
                     topRight: Radius.circular(10)),
                 child: Hero(
                     tag: groundInfoModel.imageUrl ?? "assets/bg.jpg",
-                    child: FadeInImage.assetNetwork(
-                      placeholder: "assets/bg.jpg",
-                      image: groundInfoModel.imageUrl ?? "assets/bg.jpg",
-                      fit: BoxFit.cover,
-                    )),
+                    child: groundInfoModel.imageUrl == null
+                        ? Image.asset("assets/bg.jpg")
+                        : FadeInImage.assetNetwork(
+                            placeholder: "assets/bg.jpg",
+                            image: groundInfoModel.imageUrl ?? "assets/bg.jpg",
+                            fit: BoxFit.cover,
+                          )),
               ),
             ),
             Padding(

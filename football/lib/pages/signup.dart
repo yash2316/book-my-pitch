@@ -33,8 +33,8 @@ class _Signup extends State<Signup> {
   final _phoneKey = GlobalKey<FormFieldState>();
   UserDataModel userDataModel = UserDataModel();
   double borderRadius1 = 5.0;
-  TextStyle textStyle1 = const TextStyle(
-      color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
+  TextStyle textStyle1 =
+      const TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 
   Future<void> handleSignup() async {
     try {
@@ -86,14 +86,14 @@ class _Signup extends State<Signup> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Create Account",
+                      Text("Create Account",
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 40,
                               fontWeight: FontWeight.bold)),
-                      const Text("Score Your Spot!",
+                      Text("Score Your Spot!",
                           style: TextStyle(
-                              color: Colors.black38,
+                              color: Theme.of(context).colorScheme.secondary,
                               fontSize: 25,
                               fontWeight: FontWeight.bold)),
                       const SizedBox(
@@ -120,11 +120,15 @@ class _Signup extends State<Signup> {
                             focusedBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             hintText: ""),
                       ),
                       SizedBox(
@@ -148,11 +152,15 @@ class _Signup extends State<Signup> {
                             focusedBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             hintText: ""),
                       ),
                       SizedBox(
@@ -168,15 +176,21 @@ class _Signup extends State<Signup> {
                             border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.circular(borderRadius1),
-                                borderSide: const BorderSide()),
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                )),
                             hintText: ""),
                         initialCountryCode: 'IN',
                         onChanged: (phone) {
@@ -228,7 +242,9 @@ class _Signup extends State<Signup> {
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.circular(borderRadius1),
-                              borderSide: const BorderSide()),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                              )),
                         ),
                       ),
                       SizedBox(
@@ -267,7 +283,9 @@ class _Signup extends State<Signup> {
                           focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.circular(borderRadius1),
-                              borderSide: const BorderSide()),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                              )),
                         ),
                       ),
                       SizedBox(

@@ -7,18 +7,22 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookNowButton extends StatefulWidget {
-  bool isLoading = false;
   final int selectedSlot;
   final DateTime selectedDay;
   final GroundInfoModel groundInfoModel;
   final supabase = Supabase.instance.client;
+  final Function setStateMethod;
+
   BookNowButton(
       {super.key,
+      required this.setStateMethod,
       required this.selectedDay,
       required this.groundInfoModel,
       required this.selectedSlot});
 
   Future handlePayment(DateTime time, BuildContext context) async {
+    setStateMethod();
+
     Payment payment = Payment.obj(obj: {
       'user_id': supabase.auth.currentUser!.id,
       'ground_id': groundInfoModel.groundId,
@@ -27,7 +31,9 @@ class BookNowButton extends StatefulWidget {
       'timestamp': time.toIso8601String()
     });
 
-    payment.makePayment(context);
+    await payment.makePayment(context);
+
+    setStateMethod();
   }
 
   @override
@@ -42,16 +48,7 @@ class BookNowButtonState extends State<BookNowButton> {
     return InkWell(
         splashColor: Colors.white,
         onTap: () async {
-          if (widget.isLoading) {
-            print("return");
-            return;
-          }
-          widget.isLoading = true;
-          setState(() {
-            widget.isLoading = true;
-          });
           if (widget.selectedSlot == -1) {
-            widget.isLoading = false;
             return;
           }
           if (widget.supabase.auth.currentUser == null) {
@@ -67,27 +64,19 @@ class BookNowButtonState extends State<BookNowButton> {
             //print("day: $bookin");
             widget.handlePayment(time, context);
           }
-
-          setState(() {
-            widget.isLoading = false;
-          });
         },
         child: Container(
           height: 50,
           width: MediaQuery.of(context).size.width,
           color: Theme.of(context).primaryColor,
           child: Center(
-            child: widget.isLoading
-                ? CircularProgressIndicator(
-                    color: Colors.white,
-                  )
-                : Text(
-                    "Book Now",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
-                  ),
+            child: Text(
+              "Book Now",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
         ));
   }
@@ -155,7 +144,7 @@ class _GroundDescriptionState extends State<GroundDescription>
     descriptionData = await Supabase.instance.client
         .from('owner')
         .select('*')
-        .eq('id', widget.groundInfoModel.ownerId);
+        .eq('owner_id', widget.groundInfoModel.ownerId);
   }
 
   @override

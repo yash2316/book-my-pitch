@@ -6,8 +6,8 @@ ThemeData lightmode = ThemeData(
     primaryColor: Color.fromARGB(255, 255, 119, 0),
     colorScheme: const ColorScheme.light(
         surface: Colors.white,
-        primary: Colors.white60,
-        secondary: Colors.white24));
+        primary: Color.fromARGB(255, 26, 26, 26),
+        secondary: Color.fromARGB(255, 75, 75, 75)));
 
 ThemeData darkmode = ThemeData(
     fontFamily: 'Prompt',

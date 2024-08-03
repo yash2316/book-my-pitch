@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:football/pages/ground_card.dart';
 import 'package:football/pages/ground_screen2.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -14,6 +15,14 @@ class GroundScreen extends StatefulWidget {
 }
 
 class GroundScreenUI extends State<GroundScreen> {
+  bool isLoading = false;
+
+  void setLoading() {
+    setState(() {
+      isLoading = !isLoading;
+    });
+  }
+
   List<String> monthsShort = [
     "JAN",
     "FEB",
@@ -51,33 +60,38 @@ class GroundScreenUI extends State<GroundScreen> {
     isDisabledSlot = List.generate((15), (i) => true);
     isSelectedDay[0] = true;
 
-    dynamic serverTime_ = await supabase.rpc('get_current_timestamp');
-    serverTime = DateTime.parse(serverTime_);
-    //print("server time: $serverTime_ => $serverTime");
-    selectedDay = serverTime ?? selectedDay;
+    try {
+      dynamic serverTime_ = await supabase.rpc('get_current_timestamp');
+      serverTime = DateTime.parse(serverTime_);
+      //print("server time: $serverTime_ => $serverTime");
+      selectedDay = serverTime ?? selectedDay;
 
-    dynamic res = await supabase
-        .from("bookings")
-        .select('booking_date, user_id')
-        .eq('ground_id', widget.groundInfoModel.groundId)
-        .gt('booking_date', serverTime_);
+      dynamic res = await supabase
+          .from("bookings")
+          .select('booking_date, user_id')
+          .eq('ground_id', widget.groundInfoModel.groundId)
+          .or('booking_state.eq.1,booking_state.eq.0')
+          .gt('booking_date', serverTime_);
 
-    // print('response line 67 : $res');
+      // print('response line 67 : $res');
 
-    bookings = res
-        .map<DateTime>((item) => DateTime.parse(item['booking_date']).toLocal())
-        .toList();
+      bookings = res
+          .map<DateTime>(
+              (item) => DateTime.parse(item['booking_date']).toLocal())
+          .toList();
 
-    futuredates = List.generate(10, (i) => serverTime!.add(Duration(days: i)));
-    slotsList = List.generate(
-        15,
-        (i) => DateTime.utc(
-                serverTime!.year, serverTime!.month, serverTime!.day, 8, 0, 0)
-            .add(Duration(hours: i)));
-    if (mounted) setState(() {});
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      updateTimeSlots(0);
-    });
+      futuredates =
+          List.generate(10, (i) => serverTime!.add(Duration(days: i)));
+      slotsList = List.generate(
+          15,
+          (i) => DateTime.utc(
+                  serverTime!.year, serverTime!.month, serverTime!.day, 8, 0, 0)
+              .add(Duration(hours: i)));
+      if (mounted) setState(() {});
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        updateTimeSlots(0);
+      });
+    } catch (e) {}
   }
 
   @override
@@ -132,6 +146,8 @@ class GroundScreenUI extends State<GroundScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData dimentions = MediaQuery.of(context);
+
     Color uiColor1 = Theme.of(context).primaryColor;
     return Scaffold(
         body: SafeArea(
@@ -157,14 +173,16 @@ class GroundScreenUI extends State<GroundScreen> {
                             fit: StackFit.expand,
                             children: [
                               Hero(
-                                  tag: widget.groundInfoModel.imageUrl
-                                      .toString(),
-                                  child: FadeInImage.assetNetwork(
-                                    placeholder: "assets/bg.jpg",
-                                    image: widget.groundInfoModel.imageUrl
-                                        .toString(),
-                                    fit: BoxFit.cover,
-                                  )),
+                                  tag: widget.groundInfoModel.imageUrl ??
+                                      "assets/bg.jpg",
+                                  child: widget.groundInfoModel.imageUrl == null
+                                      ? Image.asset("assets/bg.jpg")
+                                      : FadeInImage.assetNetwork(
+                                          placeholder: "assets/bg.jpg",
+                                          image: widget.groundInfoModel.imageUrl
+                                              .toString(),
+                                          fit: BoxFit.cover,
+                                        )),
                               Container(
                                 decoration: const BoxDecoration(
                                     gradient: LinearGradient(
@@ -441,6 +459,7 @@ class GroundScreenUI extends State<GroundScreen> {
           Positioned(
               bottom: 0,
               child: BookNowButton(
+                setStateMethod: setLoading,
                 selectedDay: selectedDay,
                 selectedSlot: selectedSlot,
                 groundInfoModel: widget.groundInfoModel,
@@ -454,7 +473,17 @@ class GroundScreenUI extends State<GroundScreen> {
                   icon: Icon(
                     Icons.arrow_back_rounded,
                     color: Colors.white,
-                  )))
+                  ))),
+          isLoading
+              ? Container(
+                  width: dimentions.size.width,
+                  height: dimentions.size.height,
+                  color: const Color.fromARGB(90, 0, 0, 0),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : SizedBox()
         ],
       ),
     ));
