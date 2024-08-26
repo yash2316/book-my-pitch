@@ -1,5 +1,5 @@
 # Main Menu
-![main menu](https://github.com/yash2316/book-my-pitch/blob/master/screenshots/Menu.jpg)
+<img src="https://github.com/yash2316/book-my-pitch/blob/master/screenshots/Menu.jpg" width="300" />
 
 # Login & Signup
 <img src="https://github.com/yash2316/book-my-pitch/blob/master/screenshots/login.jpg" width="300" /> <img src="https://github.com/yash2316/book-my-pitch/blob/master/screenshots/signup.jpg" width="300" />
